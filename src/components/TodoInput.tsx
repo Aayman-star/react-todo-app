@@ -1,21 +1,38 @@
-import { FormEvent, useState } from "react";
-import { Todos } from "../Data/Data";
 import TodoList from "./TodoList";
+import { FormEvent, useState, useEffect } from "react";
+// import { Todos } from "../Data/Data";
+interface todoType {
+  id: number;
+  title: string;
+  completed: boolean;
+}
 const TodoInput = () => {
   const [text, setText] = useState("");
-  const [todos, setTodos] = useState(Todos);
+  const [todos, setTodos] = useState<todoType[]>([]);
+  useEffect(() => {
+    const storedTodos = localStorage.getItem("todos");
+    if (storedTodos) {
+      setTodos(JSON.parse(storedTodos));
+    }
+    // console.log("FROM THE LOCAL STORAGE", storedTodos);
+  }, []);
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(text);
+    //console.log(text);
     const todo = {
       id: todos.length + 1,
       title: text,
       completed: false,
     };
+    /**For Local storage */
+    const storedTodos = [...todos, todo];
     setTodos([...todos, todo]);
     setText("");
+    /**Trying to store the data in the local storage */
+    localStorage.setItem("todos", JSON.stringify(storedTodos));
   };
-  console.log(todos);
+  //   console.log(todos);
+  /**Function to mark the task as checked */
   const checkTask = (id: number) => {
     const updatedTodos = todos.map((todo) => {
       if (todo.id === id) {
@@ -23,7 +40,29 @@ const TodoInput = () => {
       }
       return todo;
     });
+    /**Storing the data in local storage */
+    localStorage.setItem("todos", JSON.stringify(updatedTodos));
     setTodos(updatedTodos);
+  };
+  /**Function to delete the task */
+  const deleteTask = (id: number) => {
+    const updatedTodos = todos.filter((todo) => todo.id !== id);
+    /**Storing the data in local storage */
+    localStorage.setItem("todos", JSON.stringify(updatedTodos));
+    setTodos(updatedTodos);
+  };
+  /**Function to edit the task */
+  const editTask = (id: number, newTask: string) => {
+    const updatedTodos = todos.map((todo) => {
+      if (todo.id === id) {
+        return { ...todo, title: newTask };
+      }
+      return todo;
+    });
+    /**Storing the data in local storage */
+    localStorage.setItem("todos", JSON.stringify(updatedTodos));
+    setTodos(updatedTodos);
+    setText("");
   };
   return (
     <>
@@ -36,7 +75,7 @@ const TodoInput = () => {
             value={text}
             type="text"
             onChange={(e) => setText(e.target.value)}
-            className="w-[90%] mx-auto h-10 bg-zinc-800 border-[1px] border-zinc-500 rounded-md shadow text-zinc-100 px-4 active:border-none"
+            className="w-[90%] mx-auto h-10 bg-zinc-900 border-[1px] border-zinc-500 rounded-md shadow text-zinc-100 px-4 active:border-none"
             placeholder="Say something..."
           />
           <button
@@ -47,9 +86,16 @@ const TodoInput = () => {
         </form>
       </div>
       <p className={`text-teal-500 text-center my-2  text-sm`}>
-        {todos.length} items in the list
+        {todos.length > 0
+          ? `${todos.length} item(s) in the list`
+          : "The todos list is empty!"}
       </p>
-      <TodoList todos={todos} checkTask={checkTask} />
+      <TodoList
+        todos={todos}
+        checkTask={checkTask}
+        deleteTask={deleteTask}
+        editTask={editTask}
+      />
     </>
   );
 };
