@@ -2,7 +2,7 @@
   "name": "react-todoapp",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://Aayman-star.github.io/react-todo-app",
+  "homepage": "https://Aayman-star.github.io/react-todoapp",
   "type": "module",
   "scripts": {
     "dev": "vite",
