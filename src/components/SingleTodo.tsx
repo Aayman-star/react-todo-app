@@ -25,7 +25,7 @@ const SingleTodo = ({
   };
   return (
     <div
-      className={`w-full md:w-[85%] md:mx-auto bg-zinc-800/50 p-4 font-custom text-zinc-100 my-2 rounded-md shadow-md italic border-[1px] border-zinc-900`}>
+      className={`w-full md:w-[85%] md:mx-auto bg-zinc-800 p-4 font-custom text-zinc-100 my-2 rounded-md shadow-md transform transition-all ease-in-out duration-200 hover:shadow-zinc-600/50 italic border-[1px] border-zinc-900`}>
       <div className="flex items-center justify-between">
         {isEditing ? (
           <input
@@ -37,7 +37,7 @@ const SingleTodo = ({
             className="bg-zinc-800/50 text-zinc-100 w-[50%] md:p-2 focus:border-[1px]"
           />
         ) : (
-          <p className={`${completed && "text-green-500"} font-light`}>
+          <p className={`${completed && "line-through"}`}>
             {id}-{title}
           </p>
         )}
@@ -46,7 +46,7 @@ const SingleTodo = ({
           <button
             className="transition-transform active:scale-95"
             onClick={() => setIsEditing(!isEditing)}>
-            <span className="material-icons text-zinc-500 hover:text-zinc-400 hover:shadow-md hover:shadow-zinc-400/50 transform transition-all ease-in-out duration-200 text-2xl font-semibold shadow-sm p-1 shadow-zinc-500/50  rounded-md">
+            <span className="material-icons text-amber-500 hover:text-amber-400 hover:shadow-md hover:shadow-amber-400/50 transform transition-all ease-in-out duration-200 text-2xl font-semibold shadow-sm p-1 shadow-amber-500/50  rounded-md">
               edit
             </span>
           </button>
@@ -57,6 +57,7 @@ const SingleTodo = ({
               check
             </span>
           </button>
+
           <button
             className="transition-transform active:scale-95"
             onClick={() => deleteTask(id)}>

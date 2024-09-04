@@ -75,7 +75,7 @@ const TodoInput = () => {
             value={text}
             type="text"
             onChange={(e) => setText(e.target.value)}
-            className="w-[90%] mx-auto h-10 bg-zinc-900 border-[1px] border-zinc-500 rounded-md shadow text-zinc-100 px-4 active:border-none"
+            className="w-[90%] mx-auto h-10 bg-zinc-900 border-[1px] border-zinc-500 rounded-md shadow text-zinc-100 px-4 active:border-none placeholder-zinc-500 placeholder-opacity-50"
             placeholder="Say something..."
           />
           <button
@@ -85,7 +85,10 @@ const TodoInput = () => {
           </button>
         </form>
       </div>
-      <p className={`text-teal-500 text-center my-2  text-sm`}>
+      <p
+        className={`${
+          todos.length ? "text-lime-500" : "text-zinc-500"
+        } text-center mb-2 p-2 text-sm bg-zinc-800 w-[70%] sm:w-[25%] mx-auto rounded`}>
         {todos.length > 0
           ? `${todos.length} item(s) in the list`
           : "The todos list is empty!"}
